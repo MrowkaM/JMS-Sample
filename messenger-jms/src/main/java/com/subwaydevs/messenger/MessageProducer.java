@@ -25,7 +25,9 @@ public class MessageProducer {
 		try (JMSContext jmsContext = connectionFactory.createContext("sdevs", "sdevs")) {
 			JMSProducer producer = jmsContext.createProducer();
 			for (int i = 1; i < 10; i++) {
-				producer.setPriority(i).send(messages, "Mssg nr "+ i + " with prio " + i );
+				String text = "Mssg nr "+ i + " with prio " + i ;
+				producer.setPriority(i).send(messages, text);
+				System.out.println(text);
 			}
 		}
 	}
