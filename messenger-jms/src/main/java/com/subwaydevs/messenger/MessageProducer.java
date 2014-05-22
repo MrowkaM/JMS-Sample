@@ -14,17 +14,19 @@ public class MessageProducer {
 
 	
 	public static void main(String[] args) throws NamingException {
-		sendMessage("Hello!");
+		sendMessage();
 	}
 	
-	public static void sendMessage(String text) throws NamingException {
+	public static void sendMessage() throws NamingException {
 		InitialContext context = configureContext();
 		ConnectionFactory connectionFactory = (ConnectionFactory) context
 				.lookup("jms/RemoteConnectionFactory");
 		Queue messages = (Queue) context.lookup("java:jms/queue/messagesQueue");
 		try (JMSContext jmsContext = connectionFactory.createContext("sdevs", "sdevs")) {
 			JMSProducer producer = jmsContext.createProducer();
-			producer.send(messages, "Mssg 1");
+			for (int i = 1; i < 10; i++) {
+				producer.setPriority(i).send(messages, "Mssg nr "+ i + " with prio " + i );
+			}
 		}
 	}
 	
