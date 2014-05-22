@@ -24,11 +24,9 @@ public class MessageProducer {
 		Queue messages = (Queue) context.lookup("java:jms/queue/messagesQueue");
 		try (JMSContext jmsContext = connectionFactory.createContext("sdevs", "sdevs")) {
 			JMSProducer producer = jmsContext.createProducer();
-			for (int i = 1; i < 10; i++) {
-				String text = "Mssg nr "+ i + " with prio " + i ;
-				producer.setPriority(i).send(messages, text);
-				System.out.println(text);
-			}
+			producer.setProperty("special", "XXX").send(messages, "special message 1");
+			producer.setProperty("special", "NOT SPEC").send(messages, "not special message");
+			producer.setProperty("special", "XXX").send(messages, "special message 2");
 		}
 	}
 	
