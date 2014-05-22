@@ -22,7 +22,7 @@ public class MesssageConsumer {
 		ConnectionFactory connectionFactory = (ConnectionFactory) context
 				.lookup("jms/RemoteConnectionFactory");
 		try (JMSContext jmsContext = connectionFactory.createContext("sdevs", "sdevs")) {
-			JMSConsumer consumer = jmsContext.createConsumer(messages,"special = 'XXX'");
+			JMSConsumer consumer = jmsContext.createConsumer(messages);
 			String mssg = consumer.receiveBody(String.class);
 			while(mssg != null) {
 				System.out.println(mssg);

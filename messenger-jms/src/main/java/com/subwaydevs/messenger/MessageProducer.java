@@ -3,6 +3,7 @@ package com.subwaydevs.messenger;
 import java.util.Properties;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.DeliveryMode;
 import javax.jms.JMSContext;
 import javax.jms.JMSProducer;
 import javax.jms.Queue;
@@ -24,9 +25,9 @@ public class MessageProducer {
 		Queue messages = (Queue) context.lookup("java:jms/queue/messagesQueue");
 		try (JMSContext jmsContext = connectionFactory.createContext("sdevs", "sdevs")) {
 			JMSProducer producer = jmsContext.createProducer();
-			producer.setProperty("special", "XXX").send(messages, "special message 1");
-			producer.setProperty("special", "NOT SPEC").send(messages, "not special message");
-			producer.setProperty("special", "XXX").send(messages, "special message 2");
+			producer.setDeliveryMode(DeliveryMode.PERSISTENT).send(messages, "special message 1");
+			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT).send(messages, "not special message");
+			producer.setDeliveryMode(DeliveryMode.PERSISTENT).send(messages, "special message 2");
 		}
 	}
 	
